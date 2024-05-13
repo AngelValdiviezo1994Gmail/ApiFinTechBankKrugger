@@ -53,15 +53,15 @@ namespace AngelValdiviezoWebApi.Domain.Entities.Cliente
         public string ClientNacionalidad { get; set; }
 
         [Column("usuarioCreacion", Order = 15, TypeName = "nvarchar")]
-        public string UsuarioCreacion { get; set; }
+        public string? UsuarioCreacion { get; set; }
 
         [Column("fechaCreacion", Order = 16, TypeName = "datetime")]
-        public string FechaCreacion { get; set; }
+        public DateTime? FechaCreacion { get; set; }
 
         [Column("usuarioModificacion", Order = 17, TypeName = "nvarchar")]
-        public string UsuarioModificacion { get; set; }
+        public string? UsuarioModificacion { get; set; }
 
         [Column("fechaModificacion", Order = 18, TypeName = "datetime")]
-        public string FechaModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 }

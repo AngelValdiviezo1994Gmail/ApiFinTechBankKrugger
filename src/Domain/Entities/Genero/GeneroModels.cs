@@ -14,18 +14,18 @@ namespace AngelValdiviezoWebApi.Domain.Entities.Genero
         public string GesDescripcion { get; set; }
 
         [Column("Gen_Activo", Order = 2, TypeName = "bit")]
-        public string GenActivo { get; set; }
+        public bool GenActivo { get; set; }
 
         [Column("usuarioCreacion", Order = 3, TypeName = "nvarchar")]
-        public string UsuarioCreacion { get; set; }
+        public string? UsuarioCreacion { get; set; }
 
         [Column("fechaCreacion", Order = 4, TypeName = "datetime")]
-        public string FechaCreacion { get; set; }
+        public DateTime? FechaCreacion { get; set; }
 
         [Column("usuarioModificacion", Order = 5, TypeName = "nvarchar")]
-        public string UsuarioModificacion { get; set; }
+        public string? UsuarioModificacion { get; set; }
 
         [Column("fechaModificacion", Order = 6, TypeName = "datetime")]
-        public string FechaModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 }

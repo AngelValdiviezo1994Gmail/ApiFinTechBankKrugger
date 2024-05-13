@@ -39,11 +39,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Acontecimientos\Queries\" />
-    <Folder Include="Features\Catalogo\TipoCliente\" />
-    <Folder Include="Features\Eventos\Queries\" />
-    <Folder Include="Features\Genero\" />
-  </ItemGroup>
-
 </Project>

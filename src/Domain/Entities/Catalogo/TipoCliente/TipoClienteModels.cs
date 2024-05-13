@@ -15,18 +15,18 @@ namespace AngelValdiviezoWebApi.Domain.Entities.Catalogo.TipoCliente
         public string TpClDescripcion { get; set; }
 
         [Column("TpCl_Activo", Order = 2, TypeName = "bit")]
-        public string TpClActivo { get; set; }
+        public bool TpClActivo { get; set; }
 
         [Column("UsuarioCreacion", Order = 3, TypeName = "nvarchar")]
-        public string UsuarioCreacion { get; set; }
+        public string? UsuarioCreacion { get; set; }
 
         [Column("FechaCreacion", Order = 4, TypeName = "datetime")]
-        public string FechaCreacion { get; set; }
+        public DateTime? FechaCreacion { get; set; }
 
         [Column("UsuarioModificacion", Order = 5, TypeName = "nvarchar")]
-        public string UsuarioModificacion { get; set; }
+        public string? UsuarioModificacion { get; set; }
 
         [Column("FechaModificacion", Order = 6, TypeName = "datetime")]
-        public string FechaModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 }

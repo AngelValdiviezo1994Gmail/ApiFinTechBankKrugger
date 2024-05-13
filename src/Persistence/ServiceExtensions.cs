@@ -1,11 +1,13 @@
 ﻿
 using AngelValdiviezoWebApi.Application.Common.Interfaces;
-using AngelValdiviezoWebApi.Application.Features.Acontecimientos.Interfaces;
-using AngelValdiviezoWebApi.Application.Features.Eventos.Interfaces;
+using AngelValdiviezoWebApi.Application.Features.Catalogo.TipoCliente.Interfaces;
+using AngelValdiviezoWebApi.Application.Features.Cliente.Interfaces;
+using AngelValdiviezoWebApi.Application.Features.Genero.Interfaces;
 using AngelValdiviezoWebApi.Persistence.Contexts;
 using AngelValdiviezoWebApi.Persistence.Repository;
-using AngelValdiviezoWebApi.Persistence.Repository.Acontecimientos;
-using AngelValdiviezoWebApi.Persistence.Repository.Eventos;
+using AngelValdiviezoWebApi.Persistence.Repository.Catalogo.TipoCliente;
+using AngelValdiviezoWebApi.Persistence.Repository.Cliente;
+using AngelValdiviezoWebApi.Persistence.Repository.Genero;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,29 +22,14 @@ public static class ServiceExtensions
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-        /*
-        services.AddDbContext<ApplicationsDbPanaceaContext>(options =>
-                     options.UseSqlServer(configuration.GetConnectionString("Bd_Rrhh_Panacea")));
-
-        services.AddDbContext<ApplicationsDbMarcacionesContext>(options => 
-                    options.UseSqlServer(configuration.GetConnectionString("Bd_Marcaciones_GRIAMSE")));
-        */
-
         #region Repositories
 
         services.AddTransient(typeof(IRepositoryAsync<>), typeof(CustomRepositoryAsync<>));
 
-        //services.AddTransient(typeof(IRepositoryAsync<>), typeof(CustomRepositoryAsync<>));
-
-        //services.AddTransient<IEventos, EventosService>();
-        /*
-        services.AddTransient<IOtpService, OtpService>();
-        services.AddTransient<ILdapUserService, LdapUserService>();
-        services.AddTransient<IApisConsumoAsync, ApisConsumoAsync>();
-        */
-
-        services.AddTransient<IAcontecimientos, AcontecimientoService>();
-        //services.AddTransient<IAcontecimientos, AcontecimientoService>();
+        services.AddTransient<IClientes, ClienteService>();
+        services.AddTransient<IGenero, GeneroService>();
+        services.AddTransient<ITipoCliente, TipoClienteService>();
+        
         #endregion
 
         return services;
