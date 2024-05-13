@@ -104,7 +104,7 @@ try
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateActor = false,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:SECRET_KEY"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:JWT_SECRET_KEY"]))
         };
         o.Events = new JwtBearerEvents()
         {
@@ -147,13 +147,13 @@ try
     });
 
     var app = builder.Build();
-    /*
+    
     // Configure the HTTP request pipeline.
     app.UseSerilogRequestLogging(configure =>
     {
         configure.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000}ms";
     }); // We want to log all HTTP requests
-    */
+    
 
     if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     {
@@ -166,8 +166,8 @@ try
 
     app.UseHttpsRedirection();
     app.UseCors();
-    //app.UseAuthentication();
-    //app.UseAuthorization();
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.UseErrorHandlerMiddleware();
     app.MapControllers();
     app.Run();

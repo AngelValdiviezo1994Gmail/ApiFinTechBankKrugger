@@ -38,11 +38,13 @@ namespace AngelValdiviezoWebApi.Persistence.Repository.Token
                 ClaimsIdentity claimsIdentity = new(new[]
                 {
                 new Claim("Identificacion", request.Identificacion),
+                /*
                 new Claim("OrganizacionId", request.OrganizacionId),
                 new Claim("TokenEcommerce", request.TokenEcommerce),
                 new Claim("IpDispositivo", request.IpDevice),
                 new Claim("IdDispositivo", request.IdDevice)
-                //Pendiente añadir rol en claims
+                */
+                
             });
 
                 // create token to the user

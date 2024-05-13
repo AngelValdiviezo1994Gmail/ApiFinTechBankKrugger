@@ -12,15 +12,5 @@ namespace AngelValdiviezoWebApi.Application.Features.Token.Commands.CreateTokenC
         [JsonPropertyName("password")]
         public string Password { get; set; }
 
-        [JsonPropertyName("organizacionId")]
-        public string OrganizacionId { get; set; }
-
-        [JsonPropertyName("tokenEcommerce")]
-        public string TokenEcommerce { get; set; }
-
-        [JsonPropertyName("ipDevice")]
-        public string IpDevice { get; set; }
-      
-
     }
 }

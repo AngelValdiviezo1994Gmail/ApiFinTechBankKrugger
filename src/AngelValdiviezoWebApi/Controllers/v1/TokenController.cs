@@ -26,9 +26,6 @@ namespace AngelValdiviezoWebApi.Controllers.v1
         ///     {
         ///          "Identificacion": "0920693975",
         ///          "password":       "123456",
-        ///          "organizacionId": "6",
-        ///          "tokenEcommerce": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ=",
-        ///          "ipDevice": "192.168.1.1"
         ///     }
         ///
         /// </remarks>
