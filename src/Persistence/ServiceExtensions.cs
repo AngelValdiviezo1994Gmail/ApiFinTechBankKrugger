@@ -3,11 +3,13 @@ using AngelValdiviezoWebApi.Application.Common.Interfaces;
 using AngelValdiviezoWebApi.Application.Features.Catalogo.TipoCliente.Interfaces;
 using AngelValdiviezoWebApi.Application.Features.Cliente.Interfaces;
 using AngelValdiviezoWebApi.Application.Features.Genero.Interfaces;
+using AngelValdiviezoWebApi.Application.Features.Token.Interfaces;
 using AngelValdiviezoWebApi.Persistence.Contexts;
 using AngelValdiviezoWebApi.Persistence.Repository;
 using AngelValdiviezoWebApi.Persistence.Repository.Catalogo.TipoCliente;
 using AngelValdiviezoWebApi.Persistence.Repository.Cliente;
 using AngelValdiviezoWebApi.Persistence.Repository.Genero;
+using AngelValdiviezoWebApi.Persistence.Repository.Token;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +30,8 @@ public static class ServiceExtensions
 
         services.AddTransient<IClientes, ClienteService>();
         services.AddTransient<IGenero, GeneroService>();
-        services.AddTransient<ITipoCliente, TipoClienteService>();        
-        
+        services.AddTransient<ITipoCliente, TipoClienteService>();
+        services.AddTransient<ITokenService, TokenService>();
         #endregion
 
         return services;

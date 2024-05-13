@@ -4,6 +4,7 @@ using AngelValdiviezoWebApi.Application.Features.Cliente.Commands.DeleteCliente;
 using AngelValdiviezoWebApi.Application.Features.Cliente.Commands.UpdateCliente;
 using AngelValdiviezoWebApi.Application.Features.Cliente.Dto;
 using AngelValdiviezoWebApi.Application.Features.Cliente.Query;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,15 @@ namespace AngelValdiviezoWebApi.Controllers.v1
 {
     public class ClienteController : ApiControllerBase
     {
-
+        /*
         [HttpGet("GetClientes")]
         [EnableCors("AllowOrigin")]
         [ProducesResponseType(typeof(ResponseType<string>), StatusCodes.Status200OK)]
+        */
+        [HttpGet("GetClientes")]
+        [ProducesResponseType(typeof(ResponseType<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetClientes()
         {
             var objResult = await Mediator.Send(new GetListaClienteQuery());
@@ -27,6 +33,7 @@ namespace AngelValdiviezoWebApi.Controllers.v1
         [EnableCors("AllowOrigin")]
         [ProducesResponseType(typeof(ClienteType), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<IActionResult> GetClienteById(int id, CancellationToken cancellationToken)
         {
             var query = new GetClienteByIdQuery(id);
@@ -37,7 +44,8 @@ namespace AngelValdiviezoWebApi.Controllers.v1
         [HttpPost("CreateCliente")]
         [EnableCors("AllowOrigin")]
         [ProducesResponseType(typeof(ResponseType<ClienteResponseType>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]        
+        [AllowAnonymous]
         public async Task<IActionResult> CreateCliente([FromBody] CreateClientesRequest request, CancellationToken cancellationToken)
         {
             var objResult = await Mediator.Send(new CreateClientesCommand(request), cancellationToken);
@@ -47,6 +55,7 @@ namespace AngelValdiviezoWebApi.Controllers.v1
         [EnableCors("AllowOrigin")]
         [HttpPut("UpdateCliente")]
         [ProducesResponseType(typeof(ResponseType<string>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateCliente(int idCliente, String nombreCliente, String apellidoCliente, String numCtaCliente, int saldoCliente, DateTime fechaNacimientoCliente, string direccionCliente, string telefonoCliente, 
             string emailCliente, int idTipoCliente, int idEstadoCivilCliente,
             string numIdentificacionCliente, string profesionCliente, 
@@ -64,6 +73,7 @@ namespace AngelValdiviezoWebApi.Controllers.v1
         [EnableCors("AllowOrigin")]
         [HttpDelete("EliminaCliente")]
         [ProducesResponseType(typeof(ResponseType<string>), StatusCodes.Status200OK)]
+        [AllowAnonymous]
         public async Task<IActionResult> EliminaCliente(int IdCliente, CancellationToken cancellationToken)
         {
             var objResult = await Mediator.Send(new DeleteClienteCommand(IdCliente), cancellationToken);

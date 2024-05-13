@@ -51,7 +51,7 @@ try
         c.SwaggerDoc("v1", new OpenApiInfo
         {
             Version = "v1",
-            Title = "Ventas - API",
+            Title = "Clientes - API",
             Description = "Test EndPoints de Angel Valdiviezo",
             Contact = new OpenApiContact
             {
@@ -60,7 +60,7 @@ try
                 Url = new Uri("https://github.com/AngelValdiviezo1994Gmail/AplicacionWebApi/tree/main/AplicacionWebApiAngelValdiviezo"),
             }
         });
-        /*
+        
         c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
             Description = "Jwt Authorization",
@@ -83,12 +83,12 @@ try
                 new string[]{}
             }
         });
-        */
+        
         var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     });
 
-    /*
+    
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -132,7 +132,6 @@ try
             }
         };
     });
-    */
 
     builder.Services.AddFluentValidation(conf =>
     {
