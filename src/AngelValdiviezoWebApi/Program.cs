@@ -30,7 +30,7 @@ try
 {
     Log.Information("Starting web host");
     var builder = WebApplication.CreateBuilder(args);
-
+    string message = "";
     // Full setup of serilog. We read log settings from appsettings.json
     builder.Host.UseSerilog((context, services, configuration) => configuration
         .ReadFrom.Configuration(context.Configuration)
@@ -88,7 +88,7 @@ try
         c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
     });
 
-    
+    /*
     builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -132,6 +132,86 @@ try
             }
         };
     });
+    */
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(o =>
+    {
+        o.RequireHttpsMetadata = false;
+        o.SaveToken = false;
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateActor = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:JWT_SECRET_KEY"])),
+            //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:JWT_SECRET_KEY"]))
+            // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+            ClockSkew = TimeSpan.Zero
+        };
+
+        o.Events = new JwtBearerEvents()
+        {
+            OnAuthenticationFailed = ctx =>
+            {
+                ctx.NoResult();
+                ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                message += " From OnAuthenticationFailed: ";
+                var stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine(ctx.Exception.Message);
+                message += stringBuilder.ToString();
+                return Task.CompletedTask;
+            },
+            OnChallenge = ctx =>
+            {
+                ctx.HandleResponse();
+                message += "From OnChallenge: ";
+                ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                ctx.Response.ContentType = "application/json";
+                var objResponseType = new ResponseType<string>()
+                {
+                    Succeeded = false,
+                    Message = message,
+                    StatusCode = StatusCodes.Status401Unauthorized.ToString(),
+                };
+
+                var result = JsonConvert.SerializeObject(objResponseType);
+                return ctx.Response.WriteAsync(result);
+
+            },
+            OnMessageReceived = ctx =>
+            {
+
+                ctx.Request.Headers.TryGetValue("Authorization", out var BearerToken);
+                var token = BearerToken.ToString().Split(" ").ToList().FirstOrDefault() ?? string.Empty;
+                if (!(token.ToUpper().Equals("BEARER")))
+                {
+                    BearerToken = "no Bearer token sent ";
+                    message += " Authorization Header sent: " + BearerToken;
+                }
+                else
+                {
+                    message = string.Empty;
+                }
+
+                return Task.CompletedTask;
+
+            },
+
+            OnForbidden = context =>
+            {
+                context.Response.StatusCode = 400;
+                context.Response.ContentType = "application/json";
+                var result = JsonConvert.SerializeObject(new ResponseType<string>("Usted no tiene permisos sobre este recurso"));
+                return context.Response.WriteAsync(result);
+            }
+        };
+    });
 
     builder.Services.AddFluentValidation(conf =>
     {
@@ -165,9 +245,10 @@ try
     }
 
     app.UseHttpsRedirection();
-    app.UseCors();
+    
     app.UseAuthentication();
     app.UseAuthorization();
+    app.UseCors("AllowAll");
     app.UseErrorHandlerMiddleware();
     app.MapControllers();
     app.Run();

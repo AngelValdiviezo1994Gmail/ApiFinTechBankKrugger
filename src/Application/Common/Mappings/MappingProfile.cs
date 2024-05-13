@@ -20,6 +20,9 @@ using AngelValdiviezoWebApi.Domain.Entities.Wallet;
 */
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using AngelValdiviezoWebApi.Application.Features.Token.Dto;
+using AngelValdiviezoWebApi.Application.Features.Token.Commands.CreateToken;
+using AngelValdiviezoWebApi.Application.Features.Token.Commands.CreateTokenCommand;
 
 namespace AngelValdiviezoWebApi.Application.Common.Mappings;
 
@@ -45,7 +48,7 @@ public class MappingProfile : Profile
         CreateMap<TipoRelacionFamiliar, ResponseTipoRelacionFamiliarType>();
         CreateMap<FamiliarColaborador, ResponseFamiliarColaboradorType>();
         */
-
+        CreateMap<CreateTokenRequest, TokenType>().ReverseMap();
         //ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
     }
 

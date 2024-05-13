@@ -32,7 +32,7 @@ public class CreateTokenCommandHandler : IRequestHandler<CreateTokenCommand, Res
             var objResult = await _repositoryAsync.CreateToken(entity);
             return objResult;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
 
             return new ResponseType<string>() { Message = CodeMessageResponse.GetMessageByCode("102"), StatusCode = "102", Succeeded = false };

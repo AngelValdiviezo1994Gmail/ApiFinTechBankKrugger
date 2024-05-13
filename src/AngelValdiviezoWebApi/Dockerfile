@@ -1,45 +1,26 @@
-##See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-#
-#FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-#WORKDIR /app
-#EXPOSE 80
-#EXPOSE 443
-#
-#FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-#WORKDIR /src
-#COPY ["src/WebEnrolAppApi/WebEnrolAppApi.csproj", "src/WebEnrolAppApi/"]
-#COPY ["src/Application/Application.csproj", "src/Application/"]
-#COPY ["src/Domain/Domain.csproj", "src/Domain/"]
-#COPY ["src/Persistence/Persistence.csproj", "src/Persistence/"]
-#RUN dotnet restore "src/WebEnrolAppApi/WebEnrolAppApi.csproj"
-#COPY . .
-#WORKDIR "/src/src/WebEnrolAppApi"
-#RUN dotnet build "WebEnrolAppApi.csproj" -c Release -o /app/build
-#
-#FROM build AS publish
-#RUN dotnet publish "WebEnrolAppApi.csproj" -c Release -o /app/publish
-#
-#FROM base AS final
-#WORKDIR /app
-#COPY --from=publish /app/publish .
-#ENTRYPOINT ["dotnet", "WebEnrolAppApi.dll"]
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-# Usa la imagen base de .NET Core para construir la aplicación
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
-
-# Establece el directorio de trabajo en /app
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# Copia el archivo .csproj y restaura las dependencias
-COPY *.csproj ./
-RUN dotnet restore
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["src/AngelValdiviezoWebApi/AngelValdiviezoWebApi.csproj", "src/AngelValdiviezoWebApi/"]
+COPY ["src/Application/Application.csproj", "src/Application/"]
+COPY ["src/Domain/Domain.csproj", "src/Domain/"]
+COPY ["src/Persistence/Persistence.csproj", "src/Persistence/"]
+RUN dotnet restore "src/AngelValdiviezoWebApi/AngelValdiviezoWebApi.csproj"
+COPY . .
+WORKDIR "/src/src/AngelValdiviezoWebApi"
+RUN dotnet build "AngelValdiviezoWebApi.csproj" -c Release -o /app/build
 
-# Copia el resto del código y compila la aplicación
-COPY . ./
-RUN dotnet publish -c Release -o out
+FROM build AS publish
+RUN dotnet publish "AngelValdiviezoWebApi.csproj" -c Release -o /app/publish
 
-# La segunda etapa del Dockerfile usa una imagen más ligera de ASP.NET Core para reducir el tamaño final de la imagen
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "AngelValdiviezoWebApi.dll"]
+
