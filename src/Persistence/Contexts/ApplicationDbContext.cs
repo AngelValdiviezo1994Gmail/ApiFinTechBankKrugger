@@ -1,4 +1,5 @@
 ﻿
+using AngelValdiviezoWebApi.Domain.Entities.Catalogo.EstadoCivil;
 using AngelValdiviezoWebApi.Domain.Entities.Catalogo.TipoCliente;
 using AngelValdiviezoWebApi.Domain.Entities.Cliente;
 using AngelValdiviezoWebApi.Domain.Entities.Genero;
@@ -15,6 +16,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ClienteModels> clienteModels => Set<ClienteModels>();
     public DbSet<GeneroModels> generoModels => Set<GeneroModels>();
     public DbSet<TipoClienteModels> tipoClienteModels => Set<TipoClienteModels>();
+    public DbSet<EstadoCivilModels> EstadoCivilModels => Set<EstadoCivilModels>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

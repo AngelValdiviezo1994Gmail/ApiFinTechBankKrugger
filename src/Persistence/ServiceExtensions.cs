@@ -28,7 +28,7 @@ public static class ServiceExtensions
 
         services.AddTransient<IClientes, ClienteService>();
         services.AddTransient<IGenero, GeneroService>();
-        services.AddTransient<ITipoCliente, TipoClienteService>();
+        services.AddTransient<ITipoCliente, TipoClienteService>();        
         
         #endregion
 
